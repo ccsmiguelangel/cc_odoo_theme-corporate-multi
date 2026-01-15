@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Customizing the Footer -->
+    <template id="corporate_footer" inherit_id="website.layout" name="Corporate Multi Footer">
+        <xpath expr="//footer" position="inside">
+            <div id="footer" class="oe_structure oe_structure_solo" t-ignore="true" t-if="not no_footer">
+                <section class="s_text_block pt32 pb16" data-snippet="s_text_block" data-name="Text">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-4 pt24 pb24">
+                                <h5>Sobre nosotros</h5>
+                                <p>
+                                    Somos <span t-field="res_company.name"/>. Comprometidos con la excelencia y el servicio en nuestra zona.
+                                </p>
+                            </div>
+                            <div class="col-lg-4 pt24 pb24">
+                                <h5>Contacto</h5>
+                                <ul class="list-unstyled">
+                                    <li><i class="fa fa-map-marker fa-fw"/> <span t-field="res_company.street"/></li>
+                                    <li><i class="fa fa-phone fa-fw"/> <span t-field="res_company.phone"/></li>
+                                    <li><i class="fa fa-envelope fa-fw"/> <span t-field="res_company.email"/></li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-4 pt24 pb24">
+                                <h5>Zona</h5>
+                                <p t-if="res_company.zone_id">
+                                    Estamos ubicados en: <span t-field="res_company.zone_id.name"/>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- Ensuring Company Name and Logo in Header -->
+    <template id="corporate_header" inherit_id="website.layout" name="Corporate Multi Header">
+        <xpath expr="//header//a[hasclass('navbar-brand')]" position="replace">
+            <a t-att-href="request.httprequest.host_url" class="navbar-brand logo">
+                <span t-field="res_company.logo" t-options="{'widget': 'image'}" role="img" t-att-aria-label="'Logo de %s' % res_company.name" t-att-title="res_company.name"/>
+                <span t-field="res_company.name" class="ms-2 align-middle" style="font-weight: bold;"/>
+            </a>
+        </xpath>
+    </template>
+</odoo>
