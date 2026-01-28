@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Customizing the Footer -->
-    <template id="corporate_footer" inherit_id="website.layout" name="Corporate Multi Footer">
-        <xpath expr="//footer" position="inside">
-            <div id="footer" class="oe_structure oe_structure_solo" t-ignore="true" t-if="not no_footer">
+    <!-- Desactivar el footer por defecto de Odoo -->
+    <template id="disable_default_footer" inherit_id="website.footer_custom" name="Disable Default Footer" active="False"/>
+
+    <!-- Customizing the Footer - Reemplazar completamente el footer en layout -->
+    <template id="corporate_footer" inherit_id="website.layout" name="Corporate Multi Footer" priority="100">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo border text-break" t-ignore="true" t-if="not no_footer" style="--box-border-left-width: 0px; --box-border-right-width: 0px;">
                 <section class="s_text_block pt32 pb16" data-snippet="s_text_block" data-name="Text">
                     <div class="container">
                         <div class="row">
@@ -34,12 +37,19 @@
         </xpath>
     </template>
 
-    <!-- Ensuring Company Name and Logo in Header -->
-    <template id="corporate_header" inherit_id="website.layout" name="Corporate Multi Header">
-        <xpath expr="//header//a[hasclass('navbar-brand')]" position="replace">
-            <a t-att-href="request.httprequest.host_url" class="navbar-brand logo">
-                <span t-field="res_company.logo" t-options="{'widget': 'image'}" role="img" t-att-aria-label="'Logo de %s' % res_company.name" t-att-title="res_company.name"/>
-                <span t-field="res_company.name" class="ms-2 align-middle" style="font-weight: bold;"/>
+    <!-- Ensuring Company Logo in Header (sin nombre de empresa) -->
+    <template id="corporate_header" inherit_id="website.option_header_brand_logo" name="Corporate Multi Header">
+        <xpath expr="//a[@data-name='Navbar Logo']" position="replace">
+            <a data-name="Navbar Logo" t-att-href="request.httprequest.host_url or '/'" t-attf-class="navbar-brand logo #{_link_class}">
+                <t t-if="res_company.logo">
+                    <img t-att-src="'/logo.png?company=%s' % res_company.id" 
+                         t-att-alt="'Logo de %s' % res_company.name" 
+                         t-att-title="res_company.name"
+                         style="max-height: 40px; width: auto;"/>
+                </t>
+                <t t-if="not res_company.logo">
+                    <span t-field="website.logo" t-options="{'widget': 'image'}" role="img" t-att-aria-label="'Logo de %s' % website.name" t-att-title="website.name"/>
+                </t>
             </a>
         </xpath>
     </template>

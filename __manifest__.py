@@ -9,6 +9,8 @@
         'views/pages.xml',
         'data/theme_data.xml',
     ],
+    'author': 'Exagon',
+    'website': 'https://exagon.es',
     'installable': True,
     'application': False,
     'license': 'LGPL-3',
